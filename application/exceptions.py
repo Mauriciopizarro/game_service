@@ -12,3 +12,7 @@ class UserExistent(Exception):
 
 class NotExistentUser(Exception):
     pass
+
+
+class IncorrectObjectID(Exception):
+    pass

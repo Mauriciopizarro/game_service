@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from application.croupier_service import CroupierService
-from application.exceptions import IncorrectGameID, GameFinishedError
+from application.exceptions import IncorrectGameID, GameFinishedError, IncorrectObjectID
 from domain.game import NotCroupierTurnError
 
 croupier_service = CroupierService()
@@ -14,6 +14,10 @@ async def croupier_controller(game_id: str):
     except NotCroupierTurnError:
         raise HTTPException(
             status_code=400, detail='Is not the croupier turn',
+        )
+    except IncorrectObjectID:
+        raise HTTPException(
+            status_code=400, detail='incorrect game_id',
         )
     except IncorrectGameID:
         raise HTTPException(

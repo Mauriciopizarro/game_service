@@ -1,5 +1,5 @@
 from application.deal_card_service import DealCardService
-from application.exceptions import IncorrectGameID, GameFinishedError
+from application.exceptions import IncorrectGameID, GameFinishedError, IncorrectObjectID
 from domain.game import IncorrectPlayerTurn
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
@@ -19,6 +19,10 @@ async def deal_card_controller(game_id: str, request: DealCardRequestData):
     except IncorrectGameID:
         raise HTTPException(
             status_code=404, detail='game_id not found',
+        )
+    except IncorrectObjectID:
+        raise HTTPException(
+            status_code=400, detail='incorrect game_id',
         )
     except GameFinishedError:
         raise HTTPException(

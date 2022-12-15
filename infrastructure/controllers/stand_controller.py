@@ -1,4 +1,4 @@
-from application.exceptions import IncorrectGameID, GameFinishedError
+from application.exceptions import IncorrectGameID, GameFinishedError, IncorrectObjectID
 from application.stand_service import StandService
 from domain.game import IncorrectPlayerTurn
 from fastapi import APIRouter, HTTPException, Depends
@@ -19,6 +19,10 @@ async def stand_controller(game_id: str, request: StandUserRequestData):
     except IncorrectGameID:
         raise HTTPException(
             status_code=404, detail='game_id not found',
+        )
+    except IncorrectObjectID:
+        raise HTTPException(
+            status_code=400, detail='incorrect game_id',
         )
     except GameFinishedError:
         raise HTTPException(
