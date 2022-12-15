@@ -19,7 +19,7 @@ class RabbitConsumer:
         )
         self.channel = self.connection.channel()
         self.channel.basic_consume(queue=self.topic, on_message_callback=self.process_message, auto_ack=True)
-        logger.info('Established pika async listener')
+        logger.info('Established async listener')
 
     @abstractmethod
     def process_message(self, channel, method, properties, body):

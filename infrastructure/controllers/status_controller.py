@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List
-from application.exceptions import IncorrectGameID
+from application.exceptions import IncorrectGameID, IncorrectObjectID
 from application.status_service import StatusService
 
 status_service = StatusService()
@@ -39,5 +39,9 @@ async def get_status_controller(game_id: str):
         return player_status_json
     except IncorrectGameID:
         raise HTTPException(
-            status_code=404, detail='game_id not found',
+            status_code=404, detail='game not found',
+        )
+    except IncorrectObjectID:
+        raise HTTPException(
+            status_code=400, detail='incorrect game_id',
         )

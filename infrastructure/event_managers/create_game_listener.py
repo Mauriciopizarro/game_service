@@ -18,3 +18,4 @@ class CreateGameListener(RabbitConsumer):
         logger.info('Received message')
         event = json.loads(body)
         create_game_service.create_game(players=event["players"], game_id=event["id"])
+        logger.info('Message consumed')
