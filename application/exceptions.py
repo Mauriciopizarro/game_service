@@ -16,3 +16,7 @@ class NotExistentUser(Exception):
 
 class IncorrectObjectID(Exception):
     pass
+
+
+class EmptyHistory(Exception):
+    pass
