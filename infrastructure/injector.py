@@ -12,5 +12,6 @@ injector.wire(modules=["application.create_game_service",
                        "application.croupier_service",
                        "application.deal_card_service",
                        "application.stand_service",
-                       "application.status_service"
+                       "application.status_service",
+                       "application.history_game_service"
                        ])

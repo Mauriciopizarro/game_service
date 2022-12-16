@@ -5,6 +5,10 @@ from domain.game import Game
 class GameRepository(ABC):
 
     @abstractmethod
+    def get_games_for_a_user(self, user_id: str) -> dict:
+        pass
+
+    @abstractmethod
     def save(self, game: Game) -> Game:
         pass
 

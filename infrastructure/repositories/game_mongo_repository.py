@@ -1,6 +1,8 @@
+import json
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from application.exceptions import IncorrectGameID, IncorrectObjectID
+from bson.json_util import dumps
+from application.exceptions import IncorrectGameID, IncorrectObjectID, EmptyHistory
 from domain.card import NumberCard, As, LetterCard
 from domain.game import Game
 from domain.interfaces.game_repository import GameRepository
@@ -26,6 +28,14 @@ class GameMongoRepository(GameRepository):
     def get_database():
         client = MongoClient("mongodb://mongo:27017/blackjack")
         return client['blackjack']["games"]
+
+    def get_games_for_a_user(self, user_id: str) -> dict:
+        pymongo_cursor = self.db.find({"turn_order.player_id": user_id})
+        if not pymongo_cursor.explain().get("executionStats").get("nReturned") > 0:
+            raise EmptyHistory()
+        json_data = dumps(pymongo_cursor)
+        json_response = json.loads(json_data)
+        return json_response
 
     def get(self, game_id: str) -> Game:
         if not ObjectId.is_valid(game_id):
