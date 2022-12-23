@@ -29,13 +29,15 @@ class GameMongoRepository(GameRepository):
         client = MongoClient("mongodb://mongo:27017/blackjack")
         return client['blackjack']["games"]
 
-    def get_games_for_a_user(self, user_id: str) -> dict:
+    def get_by_user_id(self, user_id: str) -> dict:
         pymongo_cursor = self.db.find({"turn_order.player_id": user_id})
-        if not pymongo_cursor.explain().get("executionStats").get("nReturned") > 0:
+        quantity_results = pymongo_cursor.explain().get("executionStats").get("nReturned")
+        if not quantity_results > 0:
             raise EmptyHistory()
         json_data = dumps(pymongo_cursor)
         json_response = json.loads(json_data)
-        return json_response
+        formated_response = self.format_model_response(user_id, json_response)
+        return formated_response
 
     def get(self, game_id: str) -> Game:
         if not ObjectId.is_valid(game_id):
@@ -89,3 +91,28 @@ class GameMongoRepository(GameRepository):
             return LetterCard(card_dict["symbol"])
         elif card_dict["type"] == "As":
             return As()
+
+    @staticmethod
+    def format_model_response(user_id: str, json_response: dict) -> dict:
+        """
+                # Model returned by method
+                "model_response":{
+                    "game_id": game_id,
+                    "status": game_status,
+                    "player_status": status_player
+                }
+        """
+        # Remove and reformat the keys like model response
+        for results in json_response:
+            results.pop("deck")
+            results.pop("turn_position")
+            results["game_id"] = str(results.get("_id").get("$oid"))
+            results["status"] = results.get("game_status")
+            for player in results.get("turn_order"):
+                if player.get("player_id") == user_id:
+                    results["player_status"] = player.get("status")
+            results.pop("_id")
+            results.pop("game_status")
+            results.pop("turn_order")
+
+        return json_response
