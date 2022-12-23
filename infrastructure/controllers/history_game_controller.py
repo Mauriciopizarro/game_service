@@ -16,14 +16,15 @@ class HistoryGamesModelResponse(BaseModel):
 
 
 class ResponseModelHistoryGames(BaseModel):
+    quantity: int
     results: List[HistoryGamesModelResponse]
 
 
-@router.get("/history/{user_id}", response_model=ResponseModelHistoryGames)
+@router.get("/player/history/{user_id}", response_model=ResponseModelHistoryGames)
 async def history_game_controller(user_id: str):
     try:
         history_dict = history_games_service.get_history(user_id=user_id)
-        return ResponseModelHistoryGames(results=history_dict)
+        return ResponseModelHistoryGames(quantity=len(history_dict), results=history_dict)
     except EmptyHistory:
         raise HTTPException(
             status_code=404, detail='History not found or inexistent user_id',

@@ -10,17 +10,5 @@ class HistoryGamesService:
         self.game_repository = game_repository
 
     def get_history(self, user_id):
-        games_played = self.game_repository.get_games_for_a_user(user_id)
-        # Remove and reformat the keys for the response
-        for results in games_played:
-            results.pop("deck")
-            results.pop("turn_position")
-            results["game_id"] = str(results.get("_id").get("$oid"))
-            results["status"] = results.get("game_status")
-            for player in results.get("turn_order"):
-                if player.get("player_id") == user_id:
-                    results["player_status"] = player.get("status")
-            results.pop("_id")
-            results.pop("game_status")
-            results.pop("turn_order")
+        games_played = self.game_repository.get_by_user_id(user_id)
         return games_played

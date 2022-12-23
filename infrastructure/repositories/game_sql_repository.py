@@ -34,7 +34,24 @@ class GameSqlRepository(GameRepository):
         Base.metadata.create_all(engine)
         return engine
 
+    def get_by_user_id(self, user_id: str) -> dict:
+        """
+        # Model returned by method
+        "model_response":{
+            "game_id": game_id,
+            "status": game_status,
+            "player_status": status_player
+        }
+        """
+        pass
+
     def get(self, game_id: str) -> Game:
+
+        try:
+            int(game_id)
+        except ValueError:
+            raise IncorrectGameID()
+
         deck = []
         players = []
 
