@@ -12,7 +12,7 @@ class StandUserRequestData(BaseModel):
     user_id: str
 
 
-@router.post("/stand/{game_id}")
+@router.post("/game/stand/{game_id}")
 async def stand_controller(game_id: str, request: StandUserRequestData):
     try:
         stand_service.stand(request.user_id, game_id)
