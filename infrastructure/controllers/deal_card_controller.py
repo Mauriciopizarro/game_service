@@ -12,7 +12,7 @@ class DealCardRequestData(BaseModel):
     user_id: str
 
 
-@router.post("/deal_card/{game_id}")
+@router.post("/game/deal_card/{game_id}")
 async def deal_card_controller(game_id: str, request: DealCardRequestData):
     try:
         deal_card_service.deal_card(request.user_id, game_id)

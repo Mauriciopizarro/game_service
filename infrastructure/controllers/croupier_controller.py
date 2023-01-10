@@ -7,7 +7,7 @@ croupier_service = CroupierService()
 router = APIRouter()
 
 
-@router.post("/croupier_play/{game_id}")
+@router.post("/game/croupier_play/{game_id}")
 async def croupier_controller(game_id: str):
     try:
         croupier_service.croupier_play(game_id)

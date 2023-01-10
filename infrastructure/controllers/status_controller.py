@@ -32,7 +32,7 @@ class StatusResponse(BaseModel):
     status_game: str
 
 
-@router.get("/player_status/{game_id}", response_model=StatusResponse)
+@router.get("/game/status/{game_id}", response_model=StatusResponse)
 async def get_status_controller(game_id: str):
     try:
         player_status_json = status_service.players_status(game_id)
