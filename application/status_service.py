@@ -12,3 +12,4 @@ class StatusService:
     def players_status(self, game_id):
         game = self.game_repository.get(game_id)
         return game.get_status()
+
