@@ -10,3 +10,4 @@ app.include_router(status_controller.router)
 app.include_router(deal_card_controller.router)
 app.include_router(stand_controller.router)
 app.include_router(croupier_controller.router)
+
