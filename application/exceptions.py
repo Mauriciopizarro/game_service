@@ -20,3 +20,7 @@ class IncorrectObjectID(Exception):
 
 class EmptyHistory(Exception):
     pass
+
+
+class EmptyPlayersList(Exception):
+    pass

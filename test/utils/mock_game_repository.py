@@ -4,7 +4,7 @@ from domain.interfaces.game_repository import GameRepository
 
 class MockGameRepository(GameRepository):
 
-    def __init__(self, game):
+    def __init__(self, game=None):
         self.game = game
 
     def get(self, game_id: int) -> Game:
@@ -14,7 +14,7 @@ class MockGameRepository(GameRepository):
         pass
 
     def save(self, game: Game) -> Game:
-        return self.game
+        return game
 
     def update(self, game: Game) -> Game:
         return self.game
