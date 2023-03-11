@@ -43,5 +43,5 @@ async def get_status_controller(game_id: str):
         )
     except IncorrectObjectID:
         raise HTTPException(
-            status_code=400, detail='incorrect game_id',
+            status_code=400, detail='incorrect format of game_id',
         )

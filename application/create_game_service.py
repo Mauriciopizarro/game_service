@@ -1,5 +1,7 @@
 import random
 from dependency_injector.wiring import Provide, inject
+
+from application.exceptions import EmptyPlayersList, IncorrectGameID
 from infrastructure.injector import Injector
 from domain.card import As, LetterCard, NumberCard
 from domain.game import Game
@@ -14,6 +16,10 @@ class CreateGameService:
         self.game_repository = game_repository
 
     def create_game(self, players, game_id):
+        if not players:
+            raise EmptyPlayersList("Empty players_list, please check if the event has sent correctly the message")
+        if not game_id:
+            raise IncorrectGameID("Empty game_id, please check if the event has sent correctly the message")
         game = Game(deck=self.create_deck(), game_status="started", game_id=game_id)
         player_list = []
         for player in players:
@@ -21,7 +27,7 @@ class CreateGameService:
             player_list.append(player)
         game.add_players(player_list)
         game.deal_initial_cards()
-        self.game_repository.save(game)
+        return self.game_repository.save(game)
 
     @staticmethod
     def create_deck():

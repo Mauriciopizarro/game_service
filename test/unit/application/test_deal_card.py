@@ -61,7 +61,7 @@ def test_deal_card_when_player_wins():
 def test_deal_card_when_player_loose():
     game = create_mock_game(4) # With a 4 the player loose
     mock_game_repo = MockGameRepository(game)
-    deal_card_service = DealCardService(mock_game_repo)
+    deal_card_service = DealCardService(game_repository=mock_game_repo)
 
     deal_card_service.deal_card(player_id="63bcb88cfe7f81c8af8d9faf", game_id="63bcba244dbc3beb6fec0eb2")
 
@@ -72,9 +72,9 @@ def test_deal_card_when_player_loose():
     assert game.game_status == "finished"
 
 def test_deal_card_when_player_id_is_incorrect():
-    game = create_mock_game(4)  # With a 4 the player loose
+    game = create_mock_game(4)
     mock_game_repo = MockGameRepository(game)
-    deal_card_service = DealCardService(mock_game_repo)
+    deal_card_service = DealCardService(game_repository=mock_game_repo)
 
     with pytest.raises(IncorrectPlayerTurn):
-        deal_card_service.deal_card(player_id="63bcb88cfe7f81c8af8d9fag", game_id="63bcba244dbc3beb6fec0eb2")
+        deal_card_service.deal_card(player_id="63bcb88cfe7f81c8af8d9fag", game_id="63bcba244dbc3beb6fec0eb2") #player_id incorrect

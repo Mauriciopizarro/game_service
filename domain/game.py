@@ -137,14 +137,14 @@ class Game(BaseModel):
             players_status_list.append(player.get_status())
 
         player_status_json = {
-            'players_quantity': len(self.players),
-            'status_game': self.game_status,
-            'players': players_status_list,
+            "players_quantity": len(self.players),
+            "status_game": self.game_status,
+            "players": players_status_list,
             'croupier': self.croupier.get_status()
         }
         return player_status_json
 
-    def add_players(self, players: List):
+    def add_players(self, players: List[Player]):
         croupier = Croupier(name="Croupier", cards=[], status="waiting_turn", has_hidden_card=True)
         self.turn_order = [croupier]
         for player in players:
