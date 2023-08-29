@@ -1,10 +1,11 @@
 from infrastructure.repositories.game_mongo_repository import GameMongoRepository
+from infrastructure.repositories.game_mysql_repository import GameSqlRepository
 from dependency_injector import containers, providers
 
 
 class Injector(containers.DeclarativeContainer):
 
-    game_repo = providers.Singleton(GameMongoRepository)
+    game_repo = providers.Singleton(GameSqlRepository)
 
 
 injector = Injector()

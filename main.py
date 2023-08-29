@@ -1,5 +1,7 @@
+import time
+time.sleep(10)
 from fastapi import FastAPI
-import infrastructure.injector # no remove this dependecy
+import infrastructure.injector # don't remove this dependecy
 from infrastructure.controllers import stand_controller, deal_card_controller, status_controller, croupier_controller, \
     history_game_controller
 

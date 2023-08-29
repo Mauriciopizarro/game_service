@@ -27,5 +27,5 @@ async def history_game_controller(user_id: str):
         return ResponseModelHistoryGames(quantity=len(history_dict), results=history_dict)
     except EmptyHistory:
         raise HTTPException(
-            status_code=404, detail='History not found or inexistent user_id',
+            status_code=404, detail='Empty history or nonexistent user_id',
         )
