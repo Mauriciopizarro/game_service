@@ -1,8 +1,15 @@
+import logging
 from domain.card import Card
+from logging.config import dictConfig
 from domain.player import Player, Croupier
+from infrastructure.logging import LogConfig
 from application.exceptions import GameFinishedError
 from typing import Optional, List
 from pydantic import BaseModel
+
+
+dictConfig(LogConfig().dict())
+logger = logging.getLogger("blackjack")
 
 
 class Game(BaseModel):

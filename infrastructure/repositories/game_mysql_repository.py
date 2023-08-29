@@ -1,5 +1,5 @@
 import sqlalchemy as db
-from application.exceptions import IncorrectGameID
+from application.exceptions import IncorrectGameID, EmptyHistory
 from domain.card import Card, NumberCard, LetterCard, As
 from domain.game import Game
 from domain.player import Croupier
@@ -43,7 +43,27 @@ class GameSqlRepository(GameRepository):
             "player_status": status_player
         }
         """
-        pass
+        session = Session(self.engine)
+        query_result = session.query(DbGame.id.label('game'),
+                                     DbGame.status.label('game_status'),
+                                     Player.status.label('player_status')) \
+            .join(Player, Player.game_id == DbGame.id) \
+            .filter(Player.player_id == user_id,
+                    Player.status != 'playing',
+                    DbGame.status == 'finished') \
+            .distinct() \
+            .all()
+        data = []
+        if query_result:
+            for row in query_result:
+                data.append({
+                    "game_id": str(row.game),
+                    "status": row.game_status,
+                    "player_status": row.player_status
+                })
+        else:
+            raise EmptyHistory()
+        return data
 
     def get(self, game_id: str) -> Game:
 
