@@ -89,7 +89,7 @@ class GameSqlRepository(GameRepository):
         for player_db in gamedb.players:
             if player_db.name != "Croupier":
                 player = self.get_player_object(player_db, False, session)
-                players.insert(0, player)
+                players.append(player)
 
             if player_db.name == "Croupier":
                 croupier = self.get_player_object(player_db, True, session)
