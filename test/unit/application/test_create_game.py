@@ -1,20 +1,16 @@
 import pytest
+from types import SimpleNamespace
 from application.create_game_service import CreateGameService
 from application.exceptions import EmptyPlayersList, IncorrectGameID
 from test.utils.mock_game_repository import MockGameRepository
 
 mock_game_repo = MockGameRepository()
 create_service = CreateGameService(game_repository=mock_game_repo)
-players = [
-    {
-        "name": "test",
-        "user_id": "1"
-    },
-    {
-        "name": "Mauri",
-        "user_id": "2"
-    }
-]
+
+
+test_user_a = SimpleNamespace(name="test", user_id=1)
+test_user_b = SimpleNamespace(name="Mauri", user_id=2)
+players = [test_user_a,test_user_b]
 
 def test_create_game():
     # Happy path
