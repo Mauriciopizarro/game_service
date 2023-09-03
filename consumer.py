@@ -1,6 +1,5 @@
 import time
 from threading import Thread
-import infrastructure.injector # no remove this dependecy
 from infrastructure.event_managers.create_game_listener import CreateGameListener
 
 
