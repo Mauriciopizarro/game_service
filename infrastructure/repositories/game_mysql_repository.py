@@ -9,6 +9,7 @@ from sqlalchemy import Column, ForeignKey, select
 from sqlalchemy.sql.sqltypes import String, Integer, BOOLEAN
 from sqlalchemy.orm import relationship, Session
 from sqlalchemy.ext.declarative import declarative_base
+from config import settings
 
 Base = declarative_base()
 
@@ -30,7 +31,7 @@ class GameSqlRepository(GameRepository):
 
     @staticmethod
     def get_database():
-        engine = db.create_engine('mysql+pymysql://user:password@mysql/blackjack')
+        engine = db.create_engine(settings.DATABASE_MYSQL_URL)
         Base.metadata.create_all(engine)
         return engine
 

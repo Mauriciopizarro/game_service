@@ -9,9 +9,16 @@ class Player(BaseModel):
     player_id: str
     status: str
     has_hidden_card: Optional[bool]
+    bet_money_hand: int = 0
 
     def receive_cards(self, new_cards):
         self.cards.extend(new_cards)
+
+    def get_bet(self):
+        return self.bet_money_hand
+
+    def set_bet_money(self, amount):
+        self.bet_money_hand = amount
 
     def get_cards_symbols(self):
         return [card.symbol for card in self.cards]
@@ -73,7 +80,8 @@ class Player(BaseModel):
             "cards": self.get_cards_symbols(),
             "total_points": self.get_possible_points(),
             "status": self.status,
-            "is_stand": self.is_stand()
+            "is_stand": self.is_stand(),
+            "bet_money_hand": self.get_bet()
         }
 
 
