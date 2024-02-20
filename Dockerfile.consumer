@@ -12,6 +12,8 @@ RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
 #
 COPY ./consumer.py /app/consumer.py
+COPY ./config.py /app/config.py
+COPY ./.env /app/.env
 COPY ./infrastructure/event_managers /app/infrastructure/event_managers
 COPY ./infrastructure/logging.py /app/infrastructure/logging.py
 
