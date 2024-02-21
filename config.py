@@ -1,4 +1,13 @@
+import os
+from dotenv import load_dotenv
 from pydantic import BaseSettings
+
+load_dotenv()
+
+if os.getenv("DEBUG").lower() == "true":
+    load_dotenv("./.env.test")
+else:
+    load_dotenv("./.env")
 
 class Settings(BaseSettings):
     RABBIT_USERNAME: str
@@ -7,9 +16,5 @@ class Settings(BaseSettings):
     RABBIT_VHOST: str
     DATABASE_MONGO_URL: str
     DATABASE_MYSQL_URL: str
-
-    class Config:
-        env_file = './.env'
-
 
 settings = Settings()
