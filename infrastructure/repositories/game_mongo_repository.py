@@ -7,6 +7,7 @@ from domain.card import NumberCard, As, LetterCard
 from domain.game import Game
 from domain.interfaces.game_repository import GameRepository
 from domain.player import Player, Croupier
+from config import settings
 
 
 class GameMongoRepository(GameRepository):
@@ -26,7 +27,7 @@ class GameMongoRepository(GameRepository):
 
     @staticmethod
     def get_database():
-        client = MongoClient("mongodb://mongo:27017/blackjack")
+        client = MongoClient(settings.DATABASE_MONGO_URL)
         return client['blackjack']["games"]
 
     def get_by_user_id(self, user_id: str) -> dict:

@@ -15,6 +15,7 @@ class Player(BaseModel):
     name: str
     status: str
     total_points: List[int]
+    bet_money_hand: int
 
 
 class Croupier(BaseModel):
