@@ -4,7 +4,7 @@ from pydantic import BaseSettings
 
 load_dotenv()
 
-if os.getenv("DEBUG").lower() == "true":
+if not os.getenv("DEBUG") or os.getenv("DEBUG").lower() == "true":
     load_dotenv("./.env.test")
 else:
     load_dotenv("./.env")
