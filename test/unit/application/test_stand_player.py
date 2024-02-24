@@ -14,6 +14,7 @@ def get_mocked_game(game_status: str, turn_position: int):
                 name="Mauri",
                 player_id="63bcb88cfe7f81c8af8d9faf",
                 status="playing",
+                bet_amount=20
             ),
             Croupier(
                 cards=[LetterCard("J"), NumberCard(8)],
