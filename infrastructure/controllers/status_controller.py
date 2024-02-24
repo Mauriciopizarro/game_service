@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 from application.exceptions import IncorrectGameID, IncorrectObjectID
 from application.status_service import StatusService
 
@@ -15,7 +15,7 @@ class Player(BaseModel):
     name: str
     status: str
     total_points: List[int]
-    bet_money_hand: int
+    bet_amount: int
 
 
 class Croupier(BaseModel):

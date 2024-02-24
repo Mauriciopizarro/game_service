@@ -77,7 +77,7 @@ class GameMongoRepository(GameRepository):
             player_cards = []
             for card in player_dict["cards"]:
                 player_cards.append(self.get_card_object(card))
-            return Player(name=player_dict["name"], player_id=player_dict["player_id"], cards=player_cards, status=player_dict["status"])
+            return Player(name=player_dict["name"], player_id=player_dict["player_id"], cards=player_cards, status=player_dict["status"], bet_amount=player_dict["bet_amount"])
 
         player_cards = []
         for card in player_dict["cards"]:

@@ -118,6 +118,16 @@ class Game(BaseModel):
         player.stand()
         self.change_turn()
 
+    def place_bet_to_current_player(self, player_id, bet_amount):
+        if self.game_status == "finished":
+            raise GameFinishedError()
+
+        if not self.is_player_turn(player_id):
+            raise IncorrectPlayerTurn()
+
+        player = self.turn_order[self.turn_position]
+        player.set_bet_money(bet_amount)
+
     def is_there_winner(self):
         if self.check_croupier_defeat():
             return True

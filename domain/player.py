@@ -9,16 +9,16 @@ class Player(BaseModel):
     player_id: str
     status: str
     has_hidden_card: Optional[bool]
-    bet_money_hand: int = 0
+    bet_amount: int
 
     def receive_cards(self, new_cards):
         self.cards.extend(new_cards)
 
     def get_bet(self):
-        return self.bet_money_hand
+        return self.bet_amount
 
     def set_bet_money(self, amount):
-        self.bet_money_hand = amount
+        self.bet_amount = amount
 
     def get_cards_symbols(self):
         return [card.symbol for card in self.cards]
@@ -81,13 +81,14 @@ class Player(BaseModel):
             "total_points": self.get_possible_points(),
             "status": self.status,
             "is_stand": self.is_stand(),
-            "bet_money_hand": self.get_bet()
+            "bet_amount": self.get_bet()
         }
 
 
 class Croupier(Player):
     has_hidden_card: bool
     player_id: Optional[int] = None
+    bet_amount: Optional[int] = None
 
     def get_cards_symbols(self):
         cards_values = super(Croupier, self).get_cards_symbols()

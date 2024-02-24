@@ -1,6 +1,5 @@
 import random
 from dependency_injector.wiring import Provide, inject
-
 from application.exceptions import EmptyPlayersList, IncorrectGameID
 from infrastructure.injector import Injector
 from domain.card import As, LetterCard, NumberCard
@@ -23,7 +22,8 @@ class CreateGameService:
         game = Game(deck=self.create_deck(), game_status="started", game_id=game_id)
         player_list = []
         for player in players:
-            player = Player(cards=[], name=player.name, player_id=player.user_id, status="waiting_turn", bet_money_hand=0)
+            player = Player(cards=[], name=player.name, player_id=player.user_id, status="waiting_turn", bet_amount=0)
+            player.set_bet_money(10)
             player_list.append(player)
         game.add_players(player_list)
         game.deal_initial_cards()
