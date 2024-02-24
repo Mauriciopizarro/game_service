@@ -13,6 +13,7 @@ def create_mock_game(last_card_to_deal):
                 name= "Mauri",
                 player_id= "63bcb88cfe7f81c8af8d9faf",
                 status= "playing",
+                bet_amount=20
             ),
             Croupier(
                 cards=[LetterCard("J"), NumberCard(8)],

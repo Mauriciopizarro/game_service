@@ -76,6 +76,7 @@ def get_mocked_game(croupier_card_1, crupier_status="waiting_turn",has_hidden_ca
                 name="Mauri",
                 player_id="63bcb88cfe7f81c8af8d9faf",
                 status="playing",
+                bet_amount=20
             ),
             Croupier(
                 cards=[croupier_card_1, NumberCard(5)],
