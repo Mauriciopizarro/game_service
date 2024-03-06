@@ -1,12 +1,11 @@
-import logging
 from domain.card import Card
-from logging.config import dictConfig
 from domain.player import Player, Croupier
-from infrastructure.logging import LogConfig
 from application.exceptions import GameFinishedError
 from typing import Optional, List
 from pydantic import BaseModel
-
+from logging.config import dictConfig
+import logging
+from infrastructure.logging import LogConfig
 
 dictConfig(LogConfig().dict())
 logger = logging.getLogger("blackjack")
