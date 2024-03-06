@@ -9,6 +9,7 @@ if not os.getenv("DEBUG") or os.getenv("DEBUG").lower() == "true":
 else:
     load_dotenv("./.env")
 
+
 class Settings(BaseSettings):
     RABBIT_USERNAME: str
     RABBIT_PASSWORD: str
@@ -16,5 +17,6 @@ class Settings(BaseSettings):
     RABBIT_VHOST: str
     DATABASE_MONGO_URL: str
     DATABASE_MYSQL_URL: str
+
 
 settings = Settings()

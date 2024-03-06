@@ -1,10 +1,8 @@
-import time
 from threading import Thread
-from infrastructure.event_managers.create_game_listener import CreateGameListener
+from infrastructure.event_managers.consumers.create_game_consumer import CreateGameListener
 
 
 def start_consumer():
-    time.sleep(15)
     Thread(target=CreateGameListener).start()
 
 

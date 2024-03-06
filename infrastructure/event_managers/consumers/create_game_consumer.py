@@ -1,9 +1,9 @@
 from infrastructure.event_managers.rabbit_consumer import RabbitConsumer
-from infrastructure.logging import LogConfig
+import json
 from logging.config import dictConfig
 import requests
 import logging
-import json
+from infrastructure.logging import LogConfig
 
 dictConfig(LogConfig().dict())
 logger = logging.getLogger("blackjack")

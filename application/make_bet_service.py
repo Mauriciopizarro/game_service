@@ -2,6 +2,7 @@ from dependency_injector.wiring import Provide, inject
 from domain.interfaces.game_repository import GameRepository
 from infrastructure.injector import Injector
 
+
 class MakeBetService:
 
     @inject
