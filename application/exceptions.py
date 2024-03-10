@@ -2,6 +2,10 @@ class GameFinishedError(Exception):
     pass
 
 
+class GameStartedImpossibleBet(Exception):
+    pass
+
+
 class IncorrectGameID(Exception):
     pass
 

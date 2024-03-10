@@ -24,9 +24,10 @@ class CroupierService:
         game.croupier_play()
         for player in game.turn_order:
             if player.name != "Croupier":
-                message = {
-                    "user_id": player.player_id,
-                    "amount": player.get_bet() * 2
-                }
-                self.publisher.send_message(message=message, topic="set_money_account")
+                if player.status == 'winner':
+                    message = {
+                        "user_id": player.player_id,
+                        "amount": player.get_bet() * 2
+                    }
+                    self.publisher.send_message(message=message, topic="set_money_account")
         self.game_repository.update(game)

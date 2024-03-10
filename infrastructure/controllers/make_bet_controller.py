@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from domain.game import IncorrectPlayerTurn
 from fastapi import APIRouter, HTTPException, Depends
 from application.make_bet_service import MakeBetService
-from application.exceptions import IncorrectGameID, GameFinishedError, IncorrectObjectID
+from application.exceptions import IncorrectGameID, GameFinishedError, IncorrectObjectID, GameStartedImpossibleBet
 
 router = APIRouter()
 bet_service = MakeBetService()
@@ -32,5 +32,9 @@ async def make_bet_controller(game_id: str, request: PlaceBetRequestData):
     except IncorrectPlayerTurn:
         raise HTTPException(
             status_code=400, detail='Is not a turn to player entered',
+        )
+    except GameStartedImpossibleBet:
+        raise HTTPException(
+            status_code=400, detail='Is not possible set the bet because the game is started',
         )
     return {'message': "Your bet is successfully set"}
