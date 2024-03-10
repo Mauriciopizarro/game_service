@@ -19,7 +19,7 @@ class CreateGameService:
             raise EmptyPlayersList("Empty players_list, please check if the event has sent correctly the message")
         if not game_id:
             raise IncorrectGameID("Empty game_id, please check if the event has sent correctly the message")
-        game = Game(deck=self.create_deck(), game_status="started", game_id=game_id)
+        game = Game(deck=self.create_deck(), game_status="pending_bet", game_id=game_id)
         player_list = []
         for player in players:
             player = Player(cards=[], name=player.name, player_id=player.user_id, status="waiting_turn", bet_amount=0)

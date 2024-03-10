@@ -1,6 +1,6 @@
 from domain.card import Card
 from domain.player import Player, Croupier
-from application.exceptions import GameFinishedError
+from application.exceptions import GameFinishedError, GameStartedImpossibleBet
 from typing import Optional, List
 from pydantic import BaseModel
 from logging.config import dictConfig
@@ -35,6 +35,13 @@ class Game(BaseModel):
             cards.append(card)
 
         return cards
+
+    def check_possible_bet(self):
+        if self.game_status == "finished":
+            raise GameFinishedError()
+
+        if self.game_status == "started":
+            raise GameStartedImpossibleBet()
 
     def change_turn(self):
         self.turn_position += 1
@@ -117,15 +124,25 @@ class Game(BaseModel):
         player.stand()
         self.change_turn()
 
+    def get_player_by_id(self, player_id):
+        for player in self.turn_order:
+            if player.player_id == player_id:
+                return player
+
     def place_bet_to_current_player(self, player_id, bet_amount):
         if self.game_status == "finished":
             raise GameFinishedError()
-
-        if not self.is_player_turn(player_id):
-            raise IncorrectPlayerTurn()
-
-        player = self.turn_order[self.turn_position]
+        player = self.get_player_by_id(player_id)
         player.set_bet_money(bet_amount)
+        self.check_all_player_bet()
+
+    def check_all_player_bet(self):
+        players_with_bets = []
+        for player in self.players:
+            if player.get_bet() > 0:
+                players_with_bets.append(player)
+        if len(players_with_bets) == len(self.players):
+            self.game_status = "started"
 
     def is_there_winner(self):
         if self.check_croupier_defeat():
