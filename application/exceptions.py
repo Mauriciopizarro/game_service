@@ -2,6 +2,14 @@ class GameFinishedError(Exception):
     pass
 
 
+class GamePendingBetError(Exception):
+    pass
+
+
+class InvalidBetAmountException(Exception):
+    pass
+
+
 class GameStartedImpossibleBet(Exception):
     pass
 

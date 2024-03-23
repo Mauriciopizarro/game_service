@@ -1,6 +1,6 @@
 from domain.card import Card
 from domain.player import Player, Croupier
-from application.exceptions import GameFinishedError, GameStartedImpossibleBet
+from application.exceptions import GameFinishedError, GameStartedImpossibleBet, GamePendingBetError
 from typing import Optional, List
 from pydantic import BaseModel
 from logging.config import dictConfig
@@ -101,6 +101,9 @@ class Game(BaseModel):
         if self.game_status == "finished":
             raise GameFinishedError()
 
+        if self.game_status == "pending_bet":
+            raise GamePendingBetError()
+
         if not self.is_player_turn(player_id):
             raise IncorrectPlayerTurn()
 
@@ -116,6 +119,9 @@ class Game(BaseModel):
     def stand_current_turn_player(self, player_id):
         if self.game_status == "finished":
             raise GameFinishedError()
+
+        if self.game_status == "pending_bet":
+            raise GamePendingBetError()
 
         if not self.is_player_turn(player_id):
             raise IncorrectPlayerTurn()

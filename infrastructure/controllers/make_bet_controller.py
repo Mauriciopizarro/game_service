@@ -2,7 +2,8 @@ from pydantic import BaseModel
 from domain.game import IncorrectPlayerTurn
 from fastapi import APIRouter, HTTPException, Depends
 from application.make_bet_service import MakeBetService
-from application.exceptions import IncorrectGameID, GameFinishedError, IncorrectObjectID, GameStartedImpossibleBet
+from application.exceptions import IncorrectGameID, GameFinishedError, IncorrectObjectID, GameStartedImpossibleBet, \
+    InvalidBetAmountException
 
 router = APIRouter()
 bet_service = MakeBetService()
@@ -17,6 +18,10 @@ class PlaceBetRequestData(BaseModel):
 async def make_bet_controller(game_id: str, request: PlaceBetRequestData):
     try:
         bet_service.place_bet(game_id, request.player_id, request.bet_amount)
+    except InvalidBetAmountException:
+        raise HTTPException(
+            status_code=404, detail='The bet amount must be greater than 0',
+        )
     except IncorrectGameID:
         raise HTTPException(
             status_code=404, detail='game_id not found',

@@ -1,4 +1,4 @@
-from application.exceptions import IncorrectGameID, GameFinishedError, IncorrectObjectID
+from application.exceptions import IncorrectGameID, GameFinishedError, IncorrectObjectID, GamePendingBetError
 from application.stand_service import StandService
 from domain.game import IncorrectPlayerTurn
 from fastapi import APIRouter, HTTPException, Depends
@@ -31,5 +31,9 @@ async def stand_controller(game_id: str, request: StandUserRequestData):
     except IncorrectPlayerTurn:
         raise HTTPException(
             status_code=400, detail='Is not a turn to player entered',
+        )
+    except GamePendingBetError:
+        raise HTTPException(
+            status_code=400, detail='The game is pending a bet. You must make a bet first'
         )
     return {'message': "Player stand"}
