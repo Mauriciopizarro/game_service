@@ -1,5 +1,7 @@
 from dependency_injector.wiring import Provide, inject
 from fastapi import HTTPException
+
+from application.exceptions import InvalidBetAmountException
 from domain.interfaces.game_repository import GameRepository
 from infrastructure.injector import Injector
 import requests
@@ -14,6 +16,8 @@ class MakeBetService:
 
     def place_bet(self, game_id, player_id, bet_amount):
         try:
+            if bet_amount < 1:
+                raise InvalidBetAmountException()
             game = self.game_repository.get(game_id)
             # if is the player turn and game is not finished is possible put the bet
             game.check_possible_bet()

@@ -1,5 +1,5 @@
 from application.deal_card_service import DealCardService
-from application.exceptions import IncorrectGameID, GameFinishedError, IncorrectObjectID
+from application.exceptions import IncorrectGameID, GameFinishedError, IncorrectObjectID, GamePendingBetError
 from domain.game import IncorrectPlayerTurn
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
@@ -31,5 +31,9 @@ async def deal_card_controller(game_id: str, request: DealCardRequestData):
     except IncorrectPlayerTurn:
         raise HTTPException(
             status_code=400, detail='Is not a turn to player entered or id may be incorrect'
+        )
+    except GamePendingBetError:
+        raise HTTPException(
+            status_code=400, detail='The game is pending a bet. You must make a bet first'
         )
     return {'message': "Card dealed to player"}

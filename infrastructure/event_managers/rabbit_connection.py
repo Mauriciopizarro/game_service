@@ -22,6 +22,7 @@ class RabbitConnection:
                                       virtual_host=settings.RABBIT_VHOST)
         )
         self.channel = self.connection.channel()
+        self.channel.basic_qos(prefetch_count=1)
         logger.warning('Rabbit connection initialized')
 
     @classmethod
