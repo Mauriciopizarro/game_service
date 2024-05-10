@@ -1,5 +1,4 @@
 from infrastructure.repositories.game_mongo_repository import GameMongoRepository
-from infrastructure.repositories.game_mysql_repository import GameSqlRepository
 from infrastructure.event_managers.rabbit_publisher import RabbitPublisher
 from dependency_injector import containers, providers
 
