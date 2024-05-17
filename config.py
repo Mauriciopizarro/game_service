@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     RABBIT_VHOST: str
     DATABASE_MONGO_URL: str
     DATABASE_MYSQL_URL: str
+    WALLET_API_URL: str
 
 
 settings = Settings()
