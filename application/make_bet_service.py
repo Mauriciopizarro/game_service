@@ -1,6 +1,6 @@
 from dependency_injector.wiring import Provide, inject
 from fastapi import HTTPException
-
+from config import settings
 from application.exceptions import InvalidBetAmountException
 from domain.interfaces.game_repository import GameRepository
 from infrastructure.injector import Injector
@@ -21,7 +21,7 @@ class MakeBetService:
             game = self.game_repository.get(game_id)
             # if is the player turn and game is not finished is possible put the bet
             game.check_possible_bet()
-            url = f'http://money_service:5003/wallet/money_out'
+            url = f'{settings.WALLET_API_URL}/wallet/money_out'
             response = requests.post(url, json={
                 'user_id': player_id,
                 'amount': bet_amount
