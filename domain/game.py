@@ -129,6 +129,9 @@ class Game(BaseModel):
         player = self.turn_order[self.turn_position]
         player.stand()
         self.change_turn()
+        current_player_id = self.get_playerId_of_current_turn()
+        if current_player_id == str(self.croupier.player_id):
+            self.croupier_play()
 
     def get_player_by_id(self, player_id):
         for player in self.turn_order:

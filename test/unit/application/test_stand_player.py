@@ -36,9 +36,8 @@ def test_stand_player():
     stand_service = StandService(game_repository=mock_game_repo)
     stand_service.stand(player_id="63bcb88cfe7f81c8af8d9faf", game_id="63bcba244dbc3beb6fec0eb2")
 
-    assert game.turn_order[0].status == "waiting_croupier"
     assert game.turn_position == 1
-    assert game.turn_order[1].status == "playing"
+    assert game.game_status == "finished"
 
 
 def test_stand_player_game_finished():
