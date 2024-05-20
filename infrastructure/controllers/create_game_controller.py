@@ -18,5 +18,5 @@ class CreateGameRequestModel(BaseModel):
 
 
 @router.post("/game/create")
-async def croupier_controller(request: CreateGameRequestModel):
+async def create_game(request: CreateGameRequestModel):
     create_game_service.create_game(request.players, request.game_id)
