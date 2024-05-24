@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     DATABASE_MONGO_URL: str
     DATABASE_MYSQL_URL: str
     WALLET_API_URL: str
+    MULTIPLY_BET_AMOUNT: str
 
 
 settings = Settings()
