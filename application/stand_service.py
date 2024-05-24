@@ -23,6 +23,6 @@ class StandService:
                     if player.status == 'winner':
                         message = {
                             "user_id": player.player_id,
-                            "amount": player.get_bet() * settings.MULTIPLY_BET_AMOUNT
+                            "amount": player.get_bet() * int(settings.MULTIPLY_BET_AMOUNT)
                         }
                         self.publisher.send_message(message=message, topic="set_money_account")
