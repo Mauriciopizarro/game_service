@@ -5,7 +5,7 @@ import logging
 from infrastructure.logging import LogConfig
 
 dictConfig(LogConfig().dict())
-logger = logging.getLogger('datadog_logger')
+logger = logging.getLogger("blackjack")
 
 
 class RabbitConnection:

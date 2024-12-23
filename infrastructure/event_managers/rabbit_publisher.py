@@ -7,7 +7,7 @@ from logging.config import dictConfig
 import logging
 from infrastructure.logging import LogConfig
 from datadog import statsd
-from datadog_config import configure_datadog
+from infrastructure.datadog import configure_datadog
 
 dictConfig(LogConfig().dict())
 logger = logging.getLogger("blackjack")
