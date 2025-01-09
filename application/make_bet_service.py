@@ -1,17 +1,14 @@
-from dependency_injector.wiring import Provide, inject
 from fastapi import HTTPException
 from config import settings
 from application.exceptions import InvalidBetAmountException
 from domain.interfaces.game_repository import GameRepository
-from infrastructure.injector import Injector
 import requests
 from requests.exceptions import HTTPError
 
 
 class MakeBetService:
 
-    @inject
-    def __init__(self, game_repository: GameRepository = Provide[Injector.game_repo]):
+    def __init__(self, game_repository: GameRepository):
         self.game_repository = game_repository
 
     def place_bet(self, game_id, player_id, bet_amount):

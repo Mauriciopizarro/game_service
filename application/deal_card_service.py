@@ -1,5 +1,3 @@
-from dependency_injector.wiring import Provide, inject
-from infrastructure.injector import Injector
 from domain.interfaces.publisher import Publisher
 from domain.interfaces.game_repository import GameRepository
 from config import settings
@@ -7,10 +5,7 @@ from config import settings
 
 class DealCardService:
 
-    @inject
-    def __init__(self, game_repository: GameRepository = Provide[Injector.game_repo],
-                 publisher: Publisher = Provide[Injector.publisher]
-                 ):
+    def __init__(self, game_repository: GameRepository, publisher: Publisher):
         self.game_repository = game_repository
         self.publisher = publisher
 

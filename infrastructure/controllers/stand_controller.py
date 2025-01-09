@@ -3,9 +3,10 @@ from application.stand_service import StandService
 from domain.game import IncorrectPlayerTurn
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
+from infrastructure.injector import Injector
+from dependency_injector.wiring import Provide, inject
 
 router = APIRouter()
-stand_service = StandService()
 
 
 class StandUserRequestData(BaseModel):
@@ -13,7 +14,11 @@ class StandUserRequestData(BaseModel):
 
 
 @router.post("/game/stand/{game_id}")
-async def stand_controller(game_id: str, request: StandUserRequestData):
+@inject
+async def stand_controller(game_id: str,
+                           request: StandUserRequestData,
+                           stand_service = Depends(Provide[Injector.stand_service])
+                           ):
     try:
         stand_service.stand(request.user_id, game_id)
     except IncorrectGameID:

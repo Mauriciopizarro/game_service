@@ -1,10 +1,11 @@
-from application.deal_card_service import DealCardService
 from application.exceptions import IncorrectGameID, GameFinishedError, IncorrectObjectID, GamePendingBetError
 from domain.game import IncorrectPlayerTurn
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
+from infrastructure.injector import Injector
+from dependency_injector.wiring import Provide, inject
 
-deal_card_service = DealCardService()
+
 router = APIRouter()
 
 
@@ -13,7 +14,11 @@ class DealCardRequestData(BaseModel):
 
 
 @router.post("/game/deal_card/{game_id}")
-async def deal_card_controller(game_id: str, request: DealCardRequestData):
+@inject
+async def deal_card_controller(game_id: str,
+                               request: DealCardRequestData,
+                               deal_card_service = Depends(Provide[Injector.deal_card_service])
+                               ):
     try:
         deal_card_service.deal_card(request.user_id, game_id)
     except IncorrectGameID:

@@ -1,12 +1,9 @@
-from dependency_injector.wiring import inject, Provide
-from infrastructure import injector
 from domain.interfaces.game_repository import GameRepository
 
 
 class StatusService:
 
-    @inject
-    def __init__(self, game_repository: GameRepository = Provide[injector.Injector.game_repo]):
+    def __init__(self, game_repository: GameRepository):
         self.game_repository = game_repository
 
     def players_status(self, game_id):

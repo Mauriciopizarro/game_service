@@ -1,7 +1,5 @@
 import random
-from dependency_injector.wiring import Provide, inject
 from application.exceptions import EmptyPlayersList, IncorrectGameID
-from infrastructure.injector import Injector
 from domain.card import As, LetterCard, NumberCard
 from domain.game import Game
 from domain.player import Player
@@ -10,8 +8,7 @@ from domain.interfaces.game_repository import GameRepository
 
 class CreateGameService:
 
-    @inject
-    def __init__(self, game_repository: GameRepository = Provide[Injector.game_repo]):
+    def __init__(self, game_repository: GameRepository):
         self.game_repository = game_repository
 
     def create_game(self, players, game_id):

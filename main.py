@@ -1,6 +1,6 @@
 from fastapi import FastAPI
+from infrastructure.injector import Injector
 from infrastructure.event_managers.rabbit_connection import RabbitConnection
-import infrastructure.injector # don't remove this dependecy
 from infrastructure.controllers import stand_controller, deal_card_controller, status_controller, \
     history_game_controller, create_game_controller, make_bet_controller
 
@@ -12,6 +12,8 @@ RabbitConnection.declare_queues(channel, queues)
 
 
 app = FastAPI()
+injector = Injector
+app.container = injector
 
 app.include_router(history_game_controller.router)
 app.include_router(status_controller.router)
