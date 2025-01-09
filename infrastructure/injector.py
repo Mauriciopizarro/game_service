@@ -13,12 +13,12 @@ class Injector(containers.DeclarativeContainer):
 
     game_repo = providers.Singleton(GameMongoRepository)
     publisher = providers.Singleton(RabbitPublisher)
-    create_game_service = providers.Singleton(CreateGameService)
-    deal_card_service = providers.Singleton(DealCardService)
-    history_of_games_service = providers.Singleton(HistoryGamesService)
-    bet_service = providers.Singleton(MakeBetService)
-    stand_service = providers.Singleton(StandService)
-    status_servie = providers.Singleton(StatusService)
+    create_game_service = providers.Factory(CreateGameService)
+    deal_card_service = providers.Factory(DealCardService)
+    history_of_games_service = providers.Factory(HistoryGamesService)
+    bet_service = providers.Factory(MakeBetService)
+    stand_service = providers.Factory(StandService)
+    status_servie = providers.Factory(StatusService)
 
     wiring_config = containers.WiringConfiguration(modules=[
         "infrastructure.controllers.create_game_controller",
