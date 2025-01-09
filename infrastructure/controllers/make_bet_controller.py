@@ -1,12 +1,12 @@
 from pydantic import BaseModel
 from domain.game import IncorrectPlayerTurn
 from fastapi import APIRouter, HTTPException, Depends
-from application.make_bet_service import MakeBetService
 from application.exceptions import IncorrectGameID, GameFinishedError, IncorrectObjectID, GameStartedImpossibleBet, \
     InvalidBetAmountException
+from infrastructure.injector import Injector
+from dependency_injector.wiring import Provide, inject
 
 router = APIRouter()
-bet_service = MakeBetService()
 
 
 class PlaceBetRequestData(BaseModel):
@@ -15,7 +15,11 @@ class PlaceBetRequestData(BaseModel):
 
 
 @router.post("/game/make_bet/{game_id}")
-async def make_bet_controller(game_id: str, request: PlaceBetRequestData):
+@inject
+async def make_bet_controller(game_id: str,
+                              request: PlaceBetRequestData,
+                              bet_service = Depends(Provide[Injector.bet_service])
+                              ):
     try:
         bet_service.place_bet(game_id, request.player_id, request.bet_amount)
     except InvalidBetAmountException:

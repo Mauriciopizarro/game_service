@@ -1,12 +1,9 @@
-from dependency_injector.wiring import Provide, inject
-from infrastructure.injector import Injector
 from domain.interfaces.game_repository import GameRepository
 
 
 class HistoryGamesService:
 
-    @inject
-    def __init__(self, game_repository: GameRepository = Provide[Injector.game_repo]):
+    def __init__(self, game_repository: GameRepository):
         self.game_repository = game_repository
 
     def get_history(self, user_id):

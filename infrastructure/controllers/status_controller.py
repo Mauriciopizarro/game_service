@@ -1,10 +1,10 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import List, Optional
+from infrastructure.injector import Injector
+from dependency_injector.wiring import Provide, inject
 from application.exceptions import IncorrectGameID, IncorrectObjectID
-from application.status_service import StatusService
 
-status_service = StatusService()
 router = APIRouter()
 
 
@@ -34,7 +34,10 @@ class StatusResponse(BaseModel):
 
 
 @router.get("/game/status/{game_id}", response_model=StatusResponse)
-async def get_status_controller(game_id: str):
+@inject
+async def get_status_controller(game_id: str,
+                                status_service = Depends(Provide[Injector.status_servie])
+                                ):
     try:
         player_status_json = status_service.players_status(game_id)
         return player_status_json
