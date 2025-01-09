@@ -13,6 +13,8 @@ class DealCardService:
         game = self.game_repository.get(game_id)
         game.deal_card_to_current_turn_player(player_id)
         self.game_repository.update(game)
+        #TODO
+        #this pay bets logic should be in a bounded context specific
         if game.game_status == 'finished':
             for player in game.turn_order:
                 if player.name != "Croupier":
