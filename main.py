@@ -12,7 +12,7 @@ RabbitConnection.declare_queues(channel, queues)
 
 
 app = FastAPI()
-injector = Injector
+injector = Injector()
 app.container = injector
 
 app.include_router(history_game_controller.router)
