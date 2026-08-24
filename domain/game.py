@@ -113,6 +113,11 @@ class Game(BaseModel):
         if player.is_over_limit():
             player.set_as_looser()
             self.change_turn()
+            current_player_id = self.get_playerId_of_current_turn()
+            if current_player_id == str(self.croupier.player_id) and not self.all_players_over_the_limit():
+                # The last player of the turn busted while others were standing:
+                # the croupier has to play now, otherwise the game gets stuck
+                self.croupier_play()
 
         self.all_players_over_the_limit()
 
