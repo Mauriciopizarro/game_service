@@ -5,21 +5,21 @@ from application.make_bet_service import MakeBetService
 from application.stand_service import StandService
 from application.status_service import StatusService
 from infrastructure.repositories.game_mongo_repository import GameMongoRepository
-from infrastructure.event_managers.rabbit_publisher import RabbitPublisher
+from infrastructure.http_clients.wallet_service_http_client import WalletServiceHttpClient
 from dependency_injector import containers, providers
 
 
 class Injector(containers.DeclarativeContainer):
 
     game_repo = providers.Singleton(GameMongoRepository)
-    publisher = providers.Singleton(RabbitPublisher)
+    wallet_service_http_client = providers.Singleton(WalletServiceHttpClient)
     create_game_service = providers.Factory(
         CreateGameService,
         game_repository=game_repo)
     deal_card_service = providers.Factory(
         DealCardService,
         game_repository=game_repo,
-        publisher=publisher)
+        wallet_service_http_client=wallet_service_http_client)
     history_of_games_service = providers.Factory(
         HistoryGamesService,
         game_repository=game_repo)
@@ -29,7 +29,7 @@ class Injector(containers.DeclarativeContainer):
     stand_service = providers.Factory(
         StandService,
         game_repository=game_repo,
-        publisher=publisher)
+        wallet_service_http_client=wallet_service_http_client)
     status_servie = providers.Factory(
         StatusService,
         game_repository=game_repo)

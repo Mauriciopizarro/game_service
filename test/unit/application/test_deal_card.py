@@ -2,12 +2,12 @@ from application.deal_card_service import DealCardService
 from domain.card import LetterCard, NumberCard
 from domain.game import Game, IncorrectPlayerTurn
 from domain.player import Player, Croupier
-from test.utils.fake_publisher_interface import FakePublisherInterface
+from test.utils.fake_wallet_http_client import FakeWalletServiceHttpClient
 from test.utils.mock_game_repository import MockGameRepository
 import pytest
 
 
-fake_publisher = FakePublisherInterface()
+fake_wallet_http_client = FakeWalletServiceHttpClient()
 
 
 def create_mock_game(last_card_to_deal):
@@ -35,7 +35,7 @@ def create_mock_game(last_card_to_deal):
 def test_deal_card():
     game = create_mock_game(2) # With a 2 the player does not win
     mock_game_repo = MockGameRepository(game)
-    deal_card_service = DealCardService(game_repository=mock_game_repo, publisher=fake_publisher)
+    deal_card_service = DealCardService(game_repository=mock_game_repo, wallet_service_http_client=fake_wallet_http_client)
 
     deal_card_service.deal_card(player_id="63bcb88cfe7f81c8af8d9faf", game_id="63bcba244dbc3beb6fec0eb2")
 
@@ -51,7 +51,7 @@ def test_deal_card():
 def test_deal_card_when_player_win():
     game = create_mock_game(3) # With a 3 the player wins
     mock_game_repo = MockGameRepository(game)
-    deal_card_service = DealCardService(game_repository=mock_game_repo, publisher=fake_publisher)
+    deal_card_service = DealCardService(game_repository=mock_game_repo, wallet_service_http_client=fake_wallet_http_client)
 
     deal_card_service.deal_card(player_id="63bcb88cfe7f81c8af8d9faf", game_id="63bcba244dbc3beb6fec0eb2")
 
@@ -65,7 +65,7 @@ def test_deal_card_when_player_win():
 def test_deal_card_when_player_loose():
     game = create_mock_game(4) # With a 4 the player loose
     mock_game_repo = MockGameRepository(game)
-    deal_card_service = DealCardService(game_repository=mock_game_repo, publisher=fake_publisher)
+    deal_card_service = DealCardService(game_repository=mock_game_repo, wallet_service_http_client=fake_wallet_http_client)
 
     deal_card_service.deal_card(player_id="63bcb88cfe7f81c8af8d9faf", game_id="63bcba244dbc3beb6fec0eb2")
 
@@ -78,7 +78,7 @@ def test_deal_card_when_player_loose():
 def test_deal_card_when_player_id_is_incorrect():
     game = create_mock_game(4)
     mock_game_repo = MockGameRepository(game)
-    deal_card_service = DealCardService(game_repository=mock_game_repo, publisher=fake_publisher)
+    deal_card_service = DealCardService(game_repository=mock_game_repo, wallet_service_http_client=fake_wallet_http_client)
 
     with pytest.raises(IncorrectPlayerTurn):
         deal_card_service.deal_card(player_id="63bcb88cfe7f81c8af8d9fag", game_id="63bcba244dbc3beb6fec0eb2") #player_id incorrect
