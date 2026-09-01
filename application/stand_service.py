@@ -1,12 +1,13 @@
+from infrastructure.http_clients.wallet_service_http_client import WalletServiceHttpClient
 from domain.interfaces.game_repository import GameRepository
-from domain.interfaces.publisher import Publisher
 from config import settings
+
 
 class StandService:
 
-    def __init__(self, game_repository: GameRepository, publisher: Publisher):
+    def __init__(self, game_repository: GameRepository, wallet_service_http_client: WalletServiceHttpClient):
         self.game_repository = game_repository
-        self.publisher = publisher
+        self.wallet_service_http_client = wallet_service_http_client
 
     def stand(self, player_id, game_id):
         game = self.game_repository.get(game_id)
@@ -20,4 +21,4 @@ class StandService:
                             "user_id": player.player_id,
                             "amount": player.get_bet() * int(settings.MULTIPLY_BET_AMOUNT)
                         }
-                        self.publisher.send_message(message=message, topic="set_money_account")
+                        self.wallet_service_http_client.set_money(user_id=message["user_id"], amount=message["amount"])
