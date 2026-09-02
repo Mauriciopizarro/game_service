@@ -59,6 +59,22 @@ class GameMongoRepository(GameRepository):
         game = Game(turn_order=turn_order, deck=deck, game_status=game_status, turn_position=turn_position, game_id=game_id)
         return game
 
+    def get_statuses(self, game_ids) -> dict:
+        """Devuelve {game_id: status_game} para todos los ids existentes con UNA sola query.
+
+        Reemplaza el N+1: el gateway pasaba de N llamadas HTTP (una por game)
+        a 1 llamada batch contra este endpoint.
+        Los ids inválidos se ignoran (el gateway los descarta igual).
+        """
+        ids = [ObjectId(gid) for gid in game_ids if ObjectId.is_valid(gid)]
+        if not ids:
+            return {}
+        cursor = self.db.find({"_id": {"$in": ids}}, {"game_status": 1})
+        result = {}
+        for doc in cursor:
+            result[str(doc["_id"])] = doc["game_status"]
+        return result
+
     def save(self, game: Game) -> Game:
         game_dict = game.dict()
         game_dict["_id"] = ObjectId(game.game_id)

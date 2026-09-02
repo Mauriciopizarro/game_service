@@ -19,3 +19,16 @@ class GameRepository(ABC):
     @abstractmethod
     def update(self, game: Game) -> Game:
         pass
+
+    def get_statuses(self, game_ids) -> dict:
+        """Devuelve {game_id: status_game}. Default: N lecturas (compatible).
+
+        Los repositorios que soportan queries por lote (mongo `$in`) deberían
+        overridear este método para evitar llamadas por elemento.
+        """
+        statuses = {}
+        for game_id in game_ids:
+            game = self.get(game_id)
+            if game:
+                statuses[str(game_id)] = game.game_status
+        return statuses
